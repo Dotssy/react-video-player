@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client';
 import App from './App.jsx';
 import VideoPlayerProvider from './context/VideoPlayerProvider.jsx';
 import './styles/index.css';
+import './styles/customize-progress-bar.css';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>

@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import {
   BsFillFastForwardFill,
   BsFillPauseFill,
@@ -9,9 +8,10 @@ import {
 } from 'react-icons/bs';
 import ProgressBar from './ProgressBar';
 import VolumeControl from './VolumeControl';
+import { useVideoPlayerContext } from '../context/VideoPlayerContext';
 
 const Controls = () => {
-  const [isPlaying, setIsPlaying] = useState(false);
+  const { isPlaying, setIsPlaying } = useVideoPlayerContext();
 
   return (
     <div className="w-full flex flex-col items-center justify-center gap-1 m-auto flex-1">
