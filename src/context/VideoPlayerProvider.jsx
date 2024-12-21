@@ -11,6 +11,7 @@ const VideoPlayerProvider = ({ children }) => {
   const [timeProgress, setTimeProgress] = useState(0);
   const [duration, setDuration] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [isRepeat, setIsRepeat] = useState(false);
   const contextValue = {
     currentVideo,
     setCurrentVideo,
@@ -21,6 +22,8 @@ const VideoPlayerProvider = ({ children }) => {
     duration,
     setDuration,
     isPlaying,
+    isRepeat,
+    setIsRepeat,
     setIsPlaying,
     setVideoIndex,
   };

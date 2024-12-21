@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import {
   BsFillFastForwardFill,
   BsFillPauseFill,
@@ -5,13 +6,16 @@ import {
   BsFillRewindFill,
   BsSkipEndFill,
   BsSkipStartFill,
+  BsRepeat,
 } from 'react-icons/bs';
 import ProgressBar from './ProgressBar';
 import VolumeControl from './VolumeControl';
 import { useVideoPlayerContext } from '../context/VideoPlayerContext';
 
-const Controls = () => {
-  const { isPlaying, setIsPlaying } = useVideoPlayerContext();
+const Controls = ({ controls }) => {
+  const { isPlaying, setIsPlaying, isRepeat, setIsRepeat } =
+    useVideoPlayerContext();
+  const [handlePrevious, handleNext] = controls;
 
   return (
     <div className="w-full flex flex-col items-center justify-center gap-1 m-auto flex-1">
@@ -21,7 +25,7 @@ const Controls = () => {
         <VolumeControl />
       </div>
       <div className="flex justify-center gap-3 text-gray-300">
-        <button onClick={() => {}}>
+        <button onClick={handlePrevious}>
           <BsSkipStartFill size={20} />
         </button>
         <button onClick={() => {}}>
@@ -37,12 +41,19 @@ const Controls = () => {
         <button onClick={() => {}}>
           <BsFillFastForwardFill size={20} />
         </button>
-        <button onClick={() => {}}>
+        <button onClick={handleNext}>
           <BsSkipEndFill size={20} />
+        </button>
+        <button onClick={() => setIsRepeat((prev) => !prev)}>
+          <BsRepeat size={20} className={isRepeat ? 'text-[#f50]' : ''} />
         </button>
       </div>
     </div>
   );
+};
+
+Controls.propTypes = {
+  controls: PropTypes.arrayOf(PropTypes.func),
 };
 
 export default Controls;
