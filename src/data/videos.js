@@ -1,18 +1,28 @@
-import beach from './beach.mp4';
-import ocean from './ocean.mp4';
-import seashore from './seashore.mp4';
+import stoneStack from './stone_stack.mp4';
+import winterForestRiver from './winter_forest_river.mp4';
+import waterfall from './waterfall.mp4';
+import oceanWaves from './ocean_waves.mp4';
+import forestRiver from './forest_river.mp4';
 
 export const videos = [
   {
-    title: 'Seashore',
-    src: seashore,
+    title: 'Stone Stack',
+    src: stoneStack,
   },
   {
-    title: 'Beautiful Beach',
-    src: beach,
+    title: 'Winter Forest River',
+    src: winterForestRiver,
   },
   {
-    title: 'Ocean View',
-    src: ocean,
+    title: 'Waterfall',
+    src: waterfall,
+  },
+  {
+    title: 'Ocean Waves',
+    src: oceanWaves,
+  },
+  {
+    title: 'Forest River',
+    src: forestRiver,
   },
 ];

@@ -20,6 +20,24 @@ const VideoPlayer = () => {
   } = useVideoPlayerContext();
   const playAnimationRef = useRef(null);
 
+  const skipBackward = () => {
+    if (videoRef.current) {
+      // 15% skip
+      const skipLength = (duration / 100) * 15;
+      videoRef.current.currentTime -= skipLength;
+      updateProgress();
+    }
+  };
+
+  const skipForward = () => {
+    if (videoRef.current) {
+      // 15% skip
+      const skipLength = (duration / 100) * 15;
+      videoRef.current.currentTime += skipLength;
+      updateProgress();
+    }
+  };
+
   const handlePrevious = useCallback(() => {
     setVideoIndex((prev) => {
       const newIndex = prev === 0 ? videos.length - 1 : prev - 1;
@@ -128,7 +146,9 @@ const VideoPlayer = () => {
         <source src={currentVideo.src} type="video/mp4" />
         Your browser does not support the video tag.
       </video>
-      <Controls controls={[handlePrevious, handleNext]} />
+      <Controls
+        controls={[handlePrevious, handleNext, skipBackward, skipForward]}
+      />
     </div>
   );
 };

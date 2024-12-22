@@ -11,16 +11,25 @@ import {
 import ProgressBar from './ProgressBar';
 import VolumeControl from './VolumeControl';
 import { useVideoPlayerContext } from '../context/VideoPlayerContext';
+import formatTime from '../utils/formatTime';
 
 const Controls = ({ controls }) => {
-  const { isPlaying, setIsPlaying, isRepeat, setIsRepeat } =
-    useVideoPlayerContext();
-  const [handlePrevious, handleNext] = controls;
+  const {
+    isPlaying,
+    setIsPlaying,
+    isRepeat,
+    setIsRepeat,
+    duration,
+    timeProgress,
+  } = useVideoPlayerContext();
+  const [handlePrevious, handleNext, skipBackward, skipForward] = controls;
 
   return (
     <div className="w-full flex flex-col items-center justify-center gap-1 m-auto flex-1">
-      <div className="flex flex-row w-full justify-between">
-        <span className="text-gray-400">00:00 / 00:00</span>
+      <div className="flex flex-row w-full justify-between gap-0">
+        <span className="text-gray-400">
+          {`${formatTime(timeProgress)} / ${formatTime(duration)}`}
+        </span>
         <ProgressBar />
         <VolumeControl />
       </div>
@@ -28,7 +37,7 @@ const Controls = ({ controls }) => {
         <button onClick={handlePrevious}>
           <BsSkipStartFill size={20} />
         </button>
-        <button onClick={() => {}}>
+        <button onClick={skipBackward}>
           <BsFillRewindFill size={20} />
         </button>
         <button onClick={() => setIsPlaying((prev) => !prev)}>
@@ -38,7 +47,7 @@ const Controls = ({ controls }) => {
             <BsFillPlayFill size={30} />
           )}
         </button>
-        <button onClick={() => {}}>
+        <button onClick={skipForward}>
           <BsFillFastForwardFill size={20} />
         </button>
         <button onClick={handleNext}>
