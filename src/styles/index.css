@@ -11,3 +11,8 @@ body {
     rgba(71, 202, 244, 1) 100%
   );
 }
+
+/* Hide all standard browser media controlls on screen */
+::-webkit-media-controls {
+  display: none !important;
+}

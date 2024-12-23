@@ -1,4 +1,5 @@
 import { useEffect, useRef, useCallback } from 'react';
+import screenfull from 'screenfull';
 import VideoTitle from './VideoTitle';
 import Controls from './Controls';
 import { useVideoPlayerContext } from '../context/VideoPlayerContext';
@@ -17,6 +18,7 @@ const VideoPlayer = () => {
     setIsPlaying,
     setCurrentVideo,
     isRepeat,
+    fullScreen,
   } = useVideoPlayerContext();
   const playAnimationRef = useRef(null);
 
@@ -53,6 +55,15 @@ const VideoPlayer = () => {
       return newIndex;
     });
   }, [setVideoIndex, setCurrentVideo]);
+
+  // Fullscreen toggle fn
+  const handleFullScreenToggle = useCallback(() => {
+    if (fullScreen) {
+      screenfull.request(videoRef.current);
+    } else {
+      screenfull.exit();
+    }
+  }, [videoRef, fullScreen]);
 
   // Update progress of the video playback and progress bar
   const updateProgress = useCallback(() => {
@@ -114,6 +125,13 @@ const VideoPlayer = () => {
   useEffect(() => {
     videoRef.current?.load();
   }, [videoRef, currentVideo]);
+
+  // Handling fullscreen toggle
+  useEffect(() => {
+    if (videoRef.current && screenfull.isEnabled) {
+      handleFullScreenToggle();
+    }
+  }, [videoRef, handleFullScreenToggle]);
 
   // Handling onEnded event
   useEffect(() => {

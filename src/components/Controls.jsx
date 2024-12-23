@@ -8,6 +8,7 @@ import {
   BsSkipStartFill,
   BsRepeat,
 } from 'react-icons/bs';
+import { RiFullscreenFill, RiFullscreenExitFill } from 'react-icons/ri';
 import ProgressBar from './ProgressBar';
 import VolumeControl from './VolumeControl';
 import { useVideoPlayerContext } from '../context/VideoPlayerContext';
@@ -21,6 +22,8 @@ const Controls = ({ controls }) => {
     setIsRepeat,
     duration,
     timeProgress,
+    fullScreen,
+    setFullScreen,
   } = useVideoPlayerContext();
   const [handlePrevious, handleNext, skipBackward, skipForward] = controls;
 
@@ -55,6 +58,13 @@ const Controls = ({ controls }) => {
         </button>
         <button onClick={() => setIsRepeat((prev) => !prev)}>
           <BsRepeat size={20} className={isRepeat ? 'text-[#8dafff]' : ''} />
+        </button>
+        <button onClick={() => setFullScreen((prev) => !prev)}>
+          {fullScreen ? (
+            <RiFullscreenExitFill size={20} />
+          ) : (
+            <RiFullscreenFill size={20} />
+          )}
         </button>
       </div>
     </div>
