@@ -135,7 +135,7 @@ const VideoPlayer = () => {
   }, [handleNext, videoRef, isRepeat]);
 
   return (
-    <div className="min-h-8 bg-[#2e2d2d] flex flex-col gap-3 justify-between items-center text-white p-[0.5rem_10px] rounded">
+    <div className="min-h-8 bg-[#2e2d2d] flex flex-col gap-3 justify-between items-center text-white p-[0.5rem_10px] rounded shadow-xl">
       <VideoTitle title={currentVideo.title} />
       <video
         className="w-full rounded"

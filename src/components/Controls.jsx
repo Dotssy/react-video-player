@@ -54,7 +54,7 @@ const Controls = ({ controls }) => {
           <BsSkipEndFill size={20} />
         </button>
         <button onClick={() => setIsRepeat((prev) => !prev)}>
-          <BsRepeat size={20} className={isRepeat ? 'text-[#f50]' : ''} />
+          <BsRepeat size={20} className={isRepeat ? 'text-[#8dafff]' : ''} />
         </button>
       </div>
     </div>
