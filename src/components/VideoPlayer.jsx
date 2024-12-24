@@ -18,27 +18,11 @@ const VideoPlayer = () => {
     setIsPlaying,
     setCurrentVideo,
     isRepeat,
+    setIsRepeat,
     fullScreen,
+    setFullScreen,
   } = useVideoPlayerContext();
   const playAnimationRef = useRef(null);
-
-  const skipBackward = () => {
-    if (videoRef.current) {
-      // 15% skip
-      const skipLength = (duration / 100) * 15;
-      videoRef.current.currentTime -= skipLength;
-      updateProgress();
-    }
-  };
-
-  const skipForward = () => {
-    if (videoRef.current) {
-      // 15% skip
-      const skipLength = (duration / 100) * 15;
-      videoRef.current.currentTime += skipLength;
-      updateProgress();
-    }
-  };
 
   const handlePrevious = useCallback(() => {
     setVideoIndex((prev) => {
@@ -89,6 +73,24 @@ const VideoPlayer = () => {
     }
   }, [updateProgress, videoRef, progressBarRef, duration]);
 
+  const skipBackward = useCallback(() => {
+    if (videoRef.current) {
+      // 15% skip
+      const skipLength = (duration / 100) * 15;
+      videoRef.current.currentTime -= skipLength;
+      updateProgress();
+    }
+  }, [videoRef, updateProgress, duration]);
+
+  const skipForward = useCallback(() => {
+    if (videoRef.current) {
+      // 15% skip
+      const skipLength = (duration / 100) * 15;
+      videoRef.current.currentTime += skipLength;
+      updateProgress();
+    }
+  }, [videoRef, updateProgress, duration]);
+
   // Playing/pausing the video and updating progress bar
   useEffect(() => {
     if (isPlaying) {
@@ -109,17 +111,6 @@ const VideoPlayer = () => {
       }
     };
   }, [videoRef, isPlaying, startAnimation, updateProgress]);
-
-  const onLoadedMetadata = () => {
-    const seconds = videoRef.current?.duration;
-
-    if (seconds !== undefined) {
-      setDuration(seconds);
-      if (progressBarRef.current) {
-        progressBarRef.current.max = seconds.toString();
-      }
-    }
-  };
 
   // Handling source url change
   useEffect(() => {
@@ -151,6 +142,51 @@ const VideoPlayer = () => {
       }
     };
   }, [handleNext, videoRef, isRepeat]);
+
+  // Handling keyboard shortcuts
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      switch (e.key) {
+        case 'ArrowRight':
+          skipForward();
+          break;
+
+        case 'ArrowLeft':
+          skipBackward();
+          break;
+
+        case 'f':
+          setFullScreen((prev) => !prev);
+          break;
+
+        case 'r':
+          setIsRepeat((prev) => !prev);
+          break;
+
+        case 'Escape':
+          setFullScreen(false);
+          e.preventDefault();
+          break;
+
+        default:
+          break;
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [skipBackward, skipForward, setFullScreen, setIsRepeat]);
+
+  const onLoadedMetadata = () => {
+    const seconds = videoRef.current?.duration;
+
+    if (seconds !== undefined) {
+      setDuration(seconds);
+      if (progressBarRef.current) {
+        progressBarRef.current.max = seconds.toString();
+      }
+    }
+  };
 
   return (
     <div className="min-h-8 bg-[#2e2d2d] flex flex-col gap-3 justify-between items-center text-white p-[0.5rem_10px] rounded shadow-xl">
