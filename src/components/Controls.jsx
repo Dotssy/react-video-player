@@ -28,9 +28,15 @@ const Controls = ({ controls }) => {
   const [handlePrevious, handleNext, skipBackward, skipForward] = controls;
 
   return (
-    <div className="w-full flex flex-col items-center justify-center gap-1 m-auto flex-1">
+    <div
+      className="absolute bottom-0 h-20 w-full p-[0_20px] flex flex-col items-center justify-center gap-1 m-auto flex-1"
+      style={{
+        background:
+          'linear-gradient(180deg, rgba(46,45,45,0) 0%, rgba(0,0,0,0.742734593837535) 50%)',
+      }}
+    >
       <div className="flex flex-row w-full justify-between gap-0">
-        <span className="text-gray-400">
+        <span className="text-gray-300">
           {`${formatTime(timeProgress)} / ${formatTime(duration)}`}
         </span>
         <ProgressBar />

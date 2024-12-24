@@ -59,11 +59,11 @@ const VideoPlayer = () => {
   // Fullscreen toggle fn
   const handleFullScreenToggle = useCallback(() => {
     if (fullScreen) {
-      screenfull.request(videoRef.current);
+      screenfull.request(document.getElementById('video-wrapper'));
     } else {
       screenfull.exit();
     }
-  }, [videoRef, fullScreen]);
+  }, [fullScreen]);
 
   // Update progress of the video playback and progress bar
   const updateProgress = useCallback(() => {
@@ -155,18 +155,21 @@ const VideoPlayer = () => {
   return (
     <div className="min-h-8 bg-[#2e2d2d] flex flex-col gap-3 justify-between items-center text-white p-[0.5rem_10px] rounded shadow-xl">
       <VideoTitle title={currentVideo.title} />
-      <video
-        className="w-full rounded"
-        ref={videoRef}
-        onLoadedMetadata={onLoadedMetadata}
-        onClick={() => setIsPlaying((prev) => !prev)}
-      >
-        <source src={currentVideo.src} type="video/mp4" />
-        Your browser does not support the video tag.
-      </video>
-      <Controls
-        controls={[handlePrevious, handleNext, skipBackward, skipForward]}
-      />
+      <div className="relative w-full flex content-center" id="video-wrapper">
+        <video
+          className="w-full rounded"
+          ref={videoRef}
+          onLoadedMetadata={onLoadedMetadata}
+          onClick={() => setIsPlaying((prev) => !prev)}
+        >
+          <source src={currentVideo.src} type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+
+        <Controls
+          controls={[handlePrevious, handleNext, skipBackward, skipForward]}
+        />
+      </div>
     </div>
   );
 };
