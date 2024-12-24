@@ -4,8 +4,7 @@ import { useVideoPlayerContext } from '../context/VideoPlayerContext';
 
 const VolumeControl = () => {
   const [volume, setVolume] = useState(60);
-  const [muteVolume, setMuteVolume] = useState(false);
-  const { videoRef } = useVideoPlayerContext();
+  const { videoRef, muteVolume, setMuteVolume } = useVideoPlayerContext();
 
   const handleVolumeChange = (e) => {
     setVolume(e.target.value);

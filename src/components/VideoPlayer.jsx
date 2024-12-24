@@ -21,6 +21,7 @@ const VideoPlayer = () => {
     setIsRepeat,
     fullScreen,
     setFullScreen,
+    setMuteVolume,
   } = useVideoPlayerContext();
   const playAnimationRef = useRef(null);
 
@@ -147,6 +148,11 @@ const VideoPlayer = () => {
   useEffect(() => {
     const handleKeyDown = (e) => {
       switch (e.key) {
+        case ' ':
+          setIsPlaying((prev) => !prev);
+          e.preventDefault();
+          break;
+
         case 'ArrowRight':
           skipForward();
           break;
@@ -163,6 +169,10 @@ const VideoPlayer = () => {
           setIsRepeat((prev) => !prev);
           break;
 
+        case 'm':
+          setMuteVolume((prev) => !prev);
+          break;
+
         case 'Escape':
           setFullScreen(false);
           e.preventDefault();
@@ -175,7 +185,14 @@ const VideoPlayer = () => {
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [skipBackward, skipForward, setFullScreen, setIsRepeat]);
+  }, [
+    skipBackward,
+    skipForward,
+    setFullScreen,
+    setIsRepeat,
+    setIsPlaying,
+    setMuteVolume,
+  ]);
 
   const onLoadedMetadata = () => {
     const seconds = videoRef.current?.duration;
