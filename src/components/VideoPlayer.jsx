@@ -123,7 +123,17 @@ const VideoPlayer = () => {
     if (videoRef.current && screenfull.isEnabled) {
       handleFullScreenToggle();
     }
-  }, [videoRef, handleFullScreenToggle]);
+    // Checking if we exited fullscreen by other means (Escape button)
+    const checkIfFullScreen = () => {
+      if (!document.fullscreenElement) {
+        setFullScreen(false);
+      }
+    };
+    // Adding and removing event listener
+    document.addEventListener('fullscreenchange', checkIfFullScreen);
+    return () =>
+      document.removeEventListener('fullscreenchange', checkIfFullScreen);
+  }, [videoRef, handleFullScreenToggle, setFullScreen]);
 
   // Handling onEnded event
   useEffect(() => {
@@ -147,35 +157,30 @@ const VideoPlayer = () => {
   // Handling keyboard shortcuts
   useEffect(() => {
     const handleKeyDown = (e) => {
-      switch (e.key) {
-        case ' ':
+      switch (e.which) {
+        case 32: // Space
           setIsPlaying((prev) => !prev);
           e.preventDefault();
           break;
 
-        case 'ArrowRight':
+        case 39: // ArrowRight
           skipForward();
           break;
 
-        case 'ArrowLeft':
+        case 37: // ArrowLeft
           skipBackward();
           break;
 
-        case 'f':
+        case 70: // F
           setFullScreen((prev) => !prev);
           break;
 
-        case 'r':
+        case 82: // R
           setIsRepeat((prev) => !prev);
           break;
 
-        case 'm':
+        case 77: // M
           setMuteVolume((prev) => !prev);
-          break;
-
-        case 'Escape':
-          setFullScreen(false);
-          e.preventDefault();
           break;
 
         default:
