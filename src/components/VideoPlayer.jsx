@@ -22,8 +22,10 @@ const VideoPlayer = () => {
     fullScreen,
     setFullScreen,
     setMuteVolume,
+    setShowControlls,
   } = useVideoPlayerContext();
   const playAnimationRef = useRef(null);
+  const controlsTimerRef = useRef(null);
 
   const handlePrevious = useCallback(() => {
     setVideoIndex((prev) => {
@@ -92,6 +94,31 @@ const VideoPlayer = () => {
     }
   }, [videoRef, updateProgress, duration]);
 
+  const handleControlsVisibility = useCallback(() => {
+    if (isPlaying) {
+      controlsTimerRef.current = setTimeout(() => {
+        setShowControlls(false);
+        videoRef.current.style.cursor = 'none';
+      }, 3000);
+    } else {
+      setShowControlls(true);
+      videoRef.current.style.cursor = 'auto';
+      if (controlsTimerRef.current) {
+        clearTimeout(controlsTimerRef.current);
+      }
+    }
+  }, [isPlaying, setShowControlls, videoRef]);
+
+  // For resetting controls visibility on certain events
+  const resetControlsVisibility = useCallback(() => {
+    setShowControlls(true);
+    videoRef.current.style.cursor = 'auto';
+    if (controlsTimerRef.current) {
+      clearTimeout(controlsTimerRef.current);
+    }
+    handleControlsVisibility();
+  }, [setShowControlls, handleControlsVisibility, videoRef]);
+
   // Playing/pausing the video and updating progress bar
   useEffect(() => {
     if (isPlaying) {
@@ -105,13 +132,20 @@ const VideoPlayer = () => {
       }
       updateProgress();
     }
+    handleControlsVisibility();
 
     return () => {
       if (playAnimationRef.current !== null) {
         cancelAnimationFrame(playAnimationRef.current);
       }
     };
-  }, [videoRef, isPlaying, startAnimation, updateProgress]);
+  }, [
+    videoRef,
+    isPlaying,
+    startAnimation,
+    updateProgress,
+    handleControlsVisibility,
+  ]);
 
   // Handling source url change
   useEffect(() => {
@@ -123,7 +157,10 @@ const VideoPlayer = () => {
     if (videoRef.current && screenfull.isEnabled) {
       handleFullScreenToggle();
     }
-    // Checking if we exited fullscreen by other means (Escape button)
+  }, [videoRef, handleFullScreenToggle]);
+
+  // Checking if we exited fullscreen by other means (Escape button)
+  useEffect(() => {
     const checkIfFullScreen = () => {
       if (!document.fullscreenElement) {
         setFullScreen(false);
@@ -133,7 +170,16 @@ const VideoPlayer = () => {
     document.addEventListener('fullscreenchange', checkIfFullScreen);
     return () =>
       document.removeEventListener('fullscreenchange', checkIfFullScreen);
-  }, [videoRef, handleFullScreenToggle, setFullScreen]);
+  }, [setFullScreen]);
+
+  // Handling mouseMove event to show or hide controls
+  useEffect(() => {
+    const videoWrapper = document.getElementById('video-wrapper');
+
+    videoWrapper.addEventListener('mousemove', resetControlsVisibility);
+    return () =>
+      videoWrapper.removeEventListener('mousemove', resetControlsVisibility);
+  }, [resetControlsVisibility]);
 
   // Handling onEnded event
   useEffect(() => {
@@ -165,22 +211,27 @@ const VideoPlayer = () => {
 
         case 39: // ArrowRight
           skipForward();
+          resetControlsVisibility();
           break;
 
         case 37: // ArrowLeft
           skipBackward();
+          resetControlsVisibility();
           break;
 
         case 70: // F
           setFullScreen((prev) => !prev);
+          resetControlsVisibility();
           break;
 
         case 82: // R
           setIsRepeat((prev) => !prev);
+          resetControlsVisibility();
           break;
 
         case 77: // M
           setMuteVolume((prev) => !prev);
+          resetControlsVisibility();
           break;
 
         default:
@@ -197,6 +248,7 @@ const VideoPlayer = () => {
     setIsRepeat,
     setIsPlaying,
     setMuteVolume,
+    resetControlsVisibility,
   ]);
 
   const onLoadedMetadata = () => {

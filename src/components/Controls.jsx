@@ -24,12 +24,15 @@ const Controls = ({ controls }) => {
     timeProgress,
     fullScreen,
     setFullScreen,
+    showControlls,
   } = useVideoPlayerContext();
   const [handlePrevious, handleNext, skipBackward, skipForward] = controls;
 
   return (
     <div
-      className="absolute bottom-0 h-20 w-full p-[0_20px] flex flex-col items-center justify-center gap-1 m-auto flex-1"
+      className={`${
+        !showControlls ? 'hidden' : ''
+      } absolute bottom-0 h-20 w-full p-[0_20px] flex flex-col items-center justify-center gap-1 m-auto flex-1`}
       style={{
         background:
           'linear-gradient(180deg, rgba(46,45,45,0) 0%, rgba(0,0,0,0.742734593837535) 50%)',

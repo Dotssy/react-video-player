@@ -14,6 +14,7 @@ const VideoPlayerProvider = ({ children }) => {
   const [isRepeat, setIsRepeat] = useState(false);
   const [fullScreen, setFullScreen] = useState(false);
   const [muteVolume, setMuteVolume] = useState(false);
+  const [showControlls, setShowControlls] = useState(true);
   const contextValue = {
     currentVideo,
     setCurrentVideo,
@@ -32,6 +33,8 @@ const VideoPlayerProvider = ({ children }) => {
     setFullScreen,
     muteVolume,
     setMuteVolume,
+    showControlls,
+    setShowControlls,
   };
 
   return (
