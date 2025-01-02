@@ -94,18 +94,13 @@ const VideoPlayer = () => {
     }
   }, [videoRef, updateProgress, duration]);
 
+  // Hiding controls and cursor on delay 3sec.
   const handleControlsVisibility = useCallback(() => {
     if (isPlaying) {
       controlsTimerRef.current = setTimeout(() => {
         setShowControlls(false);
         videoRef.current.style.cursor = 'none';
       }, 3000);
-    } else {
-      setShowControlls(true);
-      videoRef.current.style.cursor = 'auto';
-      if (controlsTimerRef.current) {
-        clearTimeout(controlsTimerRef.current);
-      }
     }
   }, [isPlaying, setShowControlls, videoRef]);
 
@@ -132,7 +127,7 @@ const VideoPlayer = () => {
       }
       updateProgress();
     }
-    handleControlsVisibility();
+    resetControlsVisibility();
 
     return () => {
       if (playAnimationRef.current !== null) {
@@ -144,7 +139,7 @@ const VideoPlayer = () => {
     isPlaying,
     startAnimation,
     updateProgress,
-    handleControlsVisibility,
+    resetControlsVisibility,
   ]);
 
   // Handling source url change
