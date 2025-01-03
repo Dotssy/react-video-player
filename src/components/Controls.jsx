@@ -32,7 +32,7 @@ const Controls = ({ controls }) => {
     <div
       className={`${
         !showControlls ? 'hidden' : ''
-      } absolute bottom-0 h-20 w-full p-[0_20px] flex flex-col items-center justify-center gap-1 m-auto flex-1`}
+      } absolute bottom-0 h-20 w-full p-[0_20px] flex flex-col items-center justify-center gap-1 m-auto flex-1 z-50`}
       style={{
         background:
           'linear-gradient(180deg, rgba(46,45,45,0) 0%, rgba(0,0,0,0.742734593837535) 50%)',

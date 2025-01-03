@@ -1,7 +1,8 @@
-import { useEffect, useRef, useCallback } from 'react';
+import { useEffect, useRef, useCallback, useState } from 'react';
 import screenfull from 'screenfull';
 import VideoTitle from './VideoTitle';
 import Controls from './Controls';
+import Buffer from './Buffer';
 import { useVideoPlayerContext } from '../context/VideoPlayerContext';
 import { videos } from '../data/videos';
 
@@ -24,10 +25,12 @@ const VideoPlayer = () => {
     setMuteVolume,
     setShowControlls,
   } = useVideoPlayerContext();
+  const [isBuffering, setIsBuffering] = useState(true);
   const playAnimationRef = useRef(null);
   const controlsTimerRef = useRef(null);
 
   const handlePrevious = useCallback(() => {
+    setIsBuffering(true);
     setVideoIndex((prev) => {
       const newIndex = prev === 0 ? videos.length - 1 : prev - 1;
       setCurrentVideo(videos[newIndex]);
@@ -36,6 +39,7 @@ const VideoPlayer = () => {
   }, [setVideoIndex, setCurrentVideo]);
 
   const handleNext = useCallback(() => {
+    setIsBuffering(true);
     setVideoIndex((prev) => {
       const newIndex = prev >= videos.length - 1 ? 0 : prev + 1;
       setCurrentVideo(videos[newIndex]);
@@ -255,12 +259,18 @@ const VideoPlayer = () => {
         progressBarRef.current.max = seconds.toString();
       }
     }
+    setIsBuffering(false);
   };
 
   return (
     <div className="min-h-8 bg-[#2e2d2d] flex flex-col gap-3 justify-between items-center text-white p-[0.5rem_10px] rounded shadow-xl">
       <VideoTitle title={currentVideo.title} />
-      <div className="relative w-full flex content-center" id="video-wrapper">
+      <div
+        className="relative w-full h-[41.5rem] flex content-center"
+        id="video-wrapper"
+      >
+        {isBuffering && <Buffer />}
+
         <video
           className="w-full rounded"
           ref={videoRef}

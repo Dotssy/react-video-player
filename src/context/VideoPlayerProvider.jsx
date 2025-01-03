@@ -6,8 +6,6 @@ import { videos } from '../data/videos';
 const VideoPlayerProvider = ({ children }) => {
   const [videoIndex, setVideoIndex] = useState(0);
   const [currentVideo, setCurrentVideo] = useState(videos[videoIndex]);
-  const videoRef = useRef(null);
-  const progressBarRef = useRef(null);
   const [timeProgress, setTimeProgress] = useState(0);
   const [duration, setDuration] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -15,6 +13,9 @@ const VideoPlayerProvider = ({ children }) => {
   const [fullScreen, setFullScreen] = useState(false);
   const [muteVolume, setMuteVolume] = useState(false);
   const [showControlls, setShowControlls] = useState(true);
+  const videoRef = useRef(null);
+  const progressBarRef = useRef(null);
+
   const contextValue = {
     currentVideo,
     setCurrentVideo,
