@@ -24,6 +24,7 @@ const VideoPlayer = () => {
     setFullScreen,
     setMuteVolume,
     setShowControlls,
+    playBackRate,
   } = useVideoPlayerContext();
   const [isBuffering, setIsBuffering] = useState(true);
   const playAnimationRef = useRef(null);
@@ -118,10 +119,11 @@ const VideoPlayer = () => {
     handleControlsVisibility();
   }, [setShowControlls, handleControlsVisibility, videoRef]);
 
-  // Playing/pausing the video and updating progress bar
+  // Playing/pausing the video, changing playback rate and updating progress bar
   useEffect(() => {
     if (isPlaying) {
       videoRef.current?.play();
+      videoRef.current.playbackRate = playBackRate;
       startAnimation();
     } else {
       videoRef.current?.pause();
@@ -144,6 +146,7 @@ const VideoPlayer = () => {
     startAnimation,
     updateProgress,
     resetControlsVisibility,
+    playBackRate,
   ]);
 
   // Handling source url change

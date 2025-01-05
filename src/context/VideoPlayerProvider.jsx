@@ -13,6 +13,7 @@ const VideoPlayerProvider = ({ children }) => {
   const [fullScreen, setFullScreen] = useState(false);
   const [muteVolume, setMuteVolume] = useState(false);
   const [showControlls, setShowControlls] = useState(true);
+  const [playBackRate, setPlayBackRate] = useState(1);
   const videoRef = useRef(null);
   const progressBarRef = useRef(null);
 
@@ -36,6 +37,8 @@ const VideoPlayerProvider = ({ children }) => {
     setMuteVolume,
     showControlls,
     setShowControlls,
+    playBackRate,
+    setPlayBackRate,
   };
 
   return (

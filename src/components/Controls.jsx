@@ -11,6 +11,7 @@ import {
 import { RiFullscreenFill, RiFullscreenExitFill } from 'react-icons/ri';
 import ProgressBar from './ProgressBar';
 import VolumeControl from './VolumeControl';
+import PlayBackRate from './PlayBackRate';
 import { useVideoPlayerContext } from '../context/VideoPlayerContext';
 import formatTime from '../utils/formatTime';
 
@@ -46,6 +47,7 @@ const Controls = ({ controls }) => {
         <VolumeControl />
       </div>
       <div className="flex justify-center gap-3 text-gray-300">
+        <PlayBackRate />
         <button onClick={handlePrevious}>
           <BsSkipStartFill size={20} />
         </button>
