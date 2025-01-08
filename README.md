@@ -1,6 +1,6 @@
 # React Video Player
 
-React video player made using react/context api and tailwind css.
+React video player made using react/context api and tailwind css. [Live Demo](https://react-video-player-gray.vercel.app/)
 
 # Usage
 
