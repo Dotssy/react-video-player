@@ -24,6 +24,7 @@ const ProgressBar = () => {
         ref={progressBarRef}
         type="range"
         defaultValue="0"
+        step={0.01}
         onChange={handleProgressChange}
       />
     </div>
